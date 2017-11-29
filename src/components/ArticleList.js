@@ -11,7 +11,7 @@ class ArticleList extends Accordion {
         const selectedSet = new Set(selected)
         const articlesToDisplay = articles
             .filter(article => selected.length === 0 || selectedSet.has(article.id))
-            .filter(this.checkArticle(range))
+            .filter(article => !(range.from && range.to) || DateUtils.isDayInRange(new Date(article.date), range))
         if (!articlesToDisplay.length) return <h3>No Articles</h3>
         const articleElements = articlesToDisplay
             .map((article) => <li key={article.id}>
@@ -25,14 +25,6 @@ class ArticleList extends Accordion {
                 {articleElements}
             </ul>
         )
-    }
-
-    checkArticle = (range) => (article) => {
-        if (!(range.from && range.to)) return true
-        // todo: fixme
-        const res = DateUtils.isDayInRange(article.date, range)
-        console.log('---', 'filters', res)
-        return res
     }
 }
 
