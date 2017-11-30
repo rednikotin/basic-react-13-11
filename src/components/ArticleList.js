@@ -7,13 +7,9 @@ import { DateUtils } from 'react-day-picker'
 
 class ArticleList extends Accordion {
     render() {
-        const { articles, selected, range } = this.props
-        const selectedSet = new Set(selected)
-        const articlesToDisplay = articles
-            .filter(article => selected.length === 0 || selectedSet.has(article.id))
-            .filter(article => !(range.from && range.to) || DateUtils.isDayInRange(new Date(article.date), range))
-        if (!articlesToDisplay.length) return <h3>No Articles</h3>
-        const articleElements = articlesToDisplay
+        const { articles } = this.props
+        if (!articles.length) return <h3>No Articles</h3>
+        const articleElements = articles
             .map((article) => <li key={article.id}>
             <Article article={article}
                      isOpen={article.id === this.state.openItemId}
@@ -38,7 +34,7 @@ ArticleList.propTypes = {
 }
 
 export default connect(state => ({
-    articles: state.articles,
-    selected: state.selected,
-    range: state.range
+    articles: state.articles
+        .filter(article => state.selected.length === 0 || state.selected.includes(article.id))
+        .filter(article => !(state.range.from && state.range.to) || DateUtils.isDayInRange(new Date(article.date), state.range))
 }))(ArticleList)
