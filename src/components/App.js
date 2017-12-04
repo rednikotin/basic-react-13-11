@@ -11,7 +11,7 @@ class App extends Component {
                 <h1>App name</h1>
                 <Counter />
                 <UserForm />
-                <Filters articles = {[]}/>
+                <Filters />
                 <ArticleList />
             </div>
         )

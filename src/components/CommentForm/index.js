@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import './style.css'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {createComment, deleteArticle} from '../../AC'
 
 class CommentForm extends Component {
     static propTypes = {
+        articleId: PropTypes.string.isRequired
     };
 
     state = {
@@ -19,13 +23,14 @@ class CommentForm extends Component {
                 comment: <textarea value = {this.state.text}
                                 onChange = {this.handleChange('text')}
                                 className = {this.getClassName('text')} />
-                <input type = "submit" value = "submit" disabled = {!this.isValidForm()}/>
+                <input type = "submit" value = "submit" disabled = {!this.isValidForm()} />
             </form>
         )
     }
 
     handleSubmit = ev => {
         ev.preventDefault()
+        this.props.createComment(this.props.articleId, {...this.state})
         this.setState({
             user: '',
             text: ''
@@ -58,4 +63,4 @@ const limits = {
     }
 }
 
-export default CommentForm
+export default connect(null, { createComment })(CommentForm)

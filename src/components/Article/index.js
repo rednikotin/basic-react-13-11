@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import CSSTransition from 'react-addons-css-transition-group'
 import './style.css'
 import {deleteArticle} from '../../AC'
+import {createArticleSelector, createCommentSelector} from '../../selectors'
 
 class Article extends PureComponent {
     static propTypes = {
@@ -59,7 +60,8 @@ class Article extends PureComponent {
             <div>
                 <button onClick = {this.increment}>increment</button>
                 <section>{article.text}</section>
-                <CommentList comments = {article.comments}
+                <CommentList articleId = {article.id}
+                             comments = {article.comments}
                              key = {this.state.counter}/>
             </div>
         )
@@ -93,5 +95,12 @@ class Article extends PureComponent {
     }
 }
 
+const createMapStateToProps = () => {
+    const articleSelector = createArticleSelector()
 
-export default connect(null, { deleteArticle })(Article)
+    return (state, ownProps) => ({
+        article: articleSelector(state, ownProps)
+    })
+}
+
+export default connect(createMapStateToProps, { deleteArticle })(Article)
