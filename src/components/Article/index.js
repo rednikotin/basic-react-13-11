@@ -82,6 +82,7 @@ class Article extends PureComponent {
         const {article, isOpen} = this.props
         if (!isOpen) return null
         if (article.loading) return <Loader />
+        if (!article.loaded) return null
         return (
             <div>
                 <button onClick = {this.increment}>increment</button>
