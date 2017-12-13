@@ -1,33 +1,22 @@
 import React, {Component} from 'react'
 import Comment from './Comment'
 import Loader from './common/Loader'
-import {Route, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {loadPageComments} from '../AC'
-import {PAGE_SIZE} from "../constants";
-import {totalCommentsSelector, commentsPageSelector} from "../selectors";
+import {commentsPageSelector} from "../selectors";
 
 class CommentsPageContent extends Component {
     componentDidMount() {
-        const { total, offset, page, loadPageComments } = this.props
-        if (!total || !page || (!page.loading && !page.loaded)) loadPageComments(offset)
+        const { offset, page, loadPageComments } = this.props
+        if (!page || (!page.loading && !page.loaded)) loadPageComments(offset)
     }
 
     render() {
-        const total = Number(this.props.total ? this.props.total : PAGE_SIZE + 1)
-        const offset = Number(this.props.offset)
         return (
             <div>
                 {this.getPage()}
-                {this.getPaginator(total, offset)}
             </div>
         )
-    }
-
-    getPaginator(total, offset) {
-        const prev = (offset - PAGE_SIZE) < 0 ? <span>prev</span> : <Link to={`/comments/${offset - PAGE_SIZE}`}>prev</Link>
-        const next = (offset + PAGE_SIZE) >= total ? <span>next</span> : <Link to={`/comments/${offset + PAGE_SIZE}`}>next</Link>
-        return <div>{prev} {offset + 1}-{Math.min(offset + PAGE_SIZE, total)} {next}</div>
     }
 
     getPage() {
@@ -45,6 +34,5 @@ class CommentsPageContent extends Component {
 }
 
 export default connect((state, props) => ({
-    total: totalCommentsSelector(state),
     page: commentsPageSelector(state, props)
 }), { loadPageComments })(CommentsPageContent)
