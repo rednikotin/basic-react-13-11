@@ -17,11 +17,7 @@ class Root extends Component {
     }
 
     getChildContext() {
-        const inter = lang => Object.keys(dict).reduce((acc, key) => {
-            acc[key] = dict[key][lang]
-            return acc
-        }, {})
-        return { inter }
+        return { inter: dict }
     }
 
     render() {

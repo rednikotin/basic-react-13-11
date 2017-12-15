@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {increment} from '../AC'
-import withInter from '../decorators/withInternationalization'
+import Inter from './common/Inter'
 
 class Counter extends Component {
     static propTypes = {
@@ -13,7 +13,7 @@ class Counter extends Component {
         return (
             <div>
                 <h1>{this.props.count}</h1>
-                <button onClick = {this.onClick}>{this.props.inter.increment}</button>
+                <button onClick = {this.onClick}><Inter value="increment" /></button>
             </div>
         )
     }
@@ -29,4 +29,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
     handleIncrement: increment
-})(withInter(Counter))
+})(Counter)

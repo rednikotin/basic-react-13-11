@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import withInter from '../decorators/withInternationalization'
+import Inter from './common/Inter'
 
 class UserForm extends Component {
     static propTypes = {
@@ -15,10 +15,10 @@ class UserForm extends Component {
     render() {
         return (
             <div>
-                {this.props.inter.username}: <input value = {this.props.value} onChange = {this.handleChange} />
+                <Inter value="username" />: <input value = {this.props.value} onChange = {this.handleChange} />
             </div>
         )
     }
 }
 
-export default withInter(UserForm)
+export default UserForm

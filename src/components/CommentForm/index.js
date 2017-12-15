@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {addComment} from '../../AC'
 import './style.css'
-import withInter from '../../decorators/withInternationalization'
+import Inter from '../common/Inter'
 
 class CommentForm extends Component {
     static propTypes = {
@@ -14,16 +14,21 @@ class CommentForm extends Component {
         text: ''
     }
 
+    static contextTypes = {
+        inter: PropTypes.object
+    }
+
     render() {
+        const submit = this.context.inter.submit[this.props.lang]
         return (
             <form onSubmit = {this.handleSubmit}>
-                {this.props.inter.user}: <input value = {this.state.user}
+                <Inter value="user" />: <input value = {this.state.user}
                              onChange = {this.handleChange('user')}
                              className = {this.getClassName('user')} />
-                {this.props.inter.comment}: <input value = {this.state.text}
+                <Inter value="comment" />: <input value = {this.state.text}
                                 onChange = {this.handleChange('text')}
                                 className = {this.getClassName('text')} />
-                <input type = "submit" value = {this.props.inter.submit} disabled = {!this.isValidForm()}/>
+                <input type="submit" value={submit} disabled={!this.isValidForm()} />
             </form>
         )
     }
@@ -63,6 +68,8 @@ const limits = {
     }
 }
 
-export default connect(null, (dispatch, ownProps) => ({
+export default connect((state) => {
+    return {lang: state.lang}
+}, (dispatch, ownProps) => ({
     addComment: (comment) => dispatch(addComment(comment, ownProps.articleId))
-}))(withInter(CommentForm))
+}))(CommentForm)

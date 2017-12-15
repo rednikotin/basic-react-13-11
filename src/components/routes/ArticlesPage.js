@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Route} from 'react-router-dom'
 import ArticleList from '../ArticleList'
 import Article from '../Article'
-import withInter from '../../decorators/withInternationalization'
+import Inter from '../common/Inter'
 
 class ArticlesPage extends Component {
     static propTypes = {
@@ -20,10 +20,10 @@ class ArticlesPage extends Component {
     }
 
     getArticle = ({ match }) => {
-        if (!match) return <h1>{this.props.inter.pleaseSelectArticle}</h1>
+        if (!match) return <h1><Inter value="pleaseSelectArticle" /></h1>
         console.log('---', 3)
         return <Article id={match.params.id} isOpen key={match.params.id} />
     }
 }
 
-export default withInter(ArticlesPage)
+export default ArticlesPage

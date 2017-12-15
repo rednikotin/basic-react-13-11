@@ -8,7 +8,7 @@ import './style.css'
 import {deleteArticle, loadArticleById} from '../../AC'
 import Loader from '../common/Loader'
 import {articleSelector} from '../../selectors'
-import withInter from '../../decorators/withInternationalization'
+import Inter from '../common/Inter'
 
 class Article extends Component {
     static propTypes = {
@@ -38,7 +38,7 @@ class Article extends Component {
 
     componentDidCatch(err) {
         this.setState({
-            error: this.props.inter.cantDisplayArticle
+            error: <Inter value="cantDisplayArticle" />
         })
     }
 
@@ -66,9 +66,9 @@ class Article extends Component {
                 <h2>
                     {article.title}
                     <button onClick={toggleOpen}>
-                        {isOpen ? this.props.inter.close : this.props.inter.open}
+                        {isOpen ? <Inter value="close" /> : <Inter value="open" /> }
                     </button>
-                    <button onClick = {this.handleDelete}>{this.props.inter.deleteMe}</button>
+                    <button onClick = {this.handleDelete}><Inter value="deleteMe" /></button>
                 </h2>
                 <CSSTransition
                     transitionName = 'article'
@@ -80,7 +80,7 @@ class Article extends Component {
                 >
                     {this.getBody()}
                 </CSSTransition>
-                <h3>{this.props.inter.creationDate}: {(new Date(article.date)).toDateString()}</h3>
+                <h3><Inter value="creationDate" />: {(new Date(article.date)).toDateString()}</h3>
             </div>
         )
     }
@@ -91,7 +91,7 @@ class Article extends Component {
         if (article.loading) return <Loader />
         return (
             <div>
-                <button onClick = {this.increment}>{this.props.inter.increment}</button>
+                <button onClick = {this.increment}><Inter value="increment" /></button>
                 <section>{article.text}</section>
                 <CommentList article = {article}
                              key = {this.state.counter}/>
@@ -108,4 +108,4 @@ class Article extends Component {
 
 export default connect((state, props) => ({
     article: articleSelector(state, props)
-}), { deleteArticle, loadArticleById }, null, { pure: false })(withInter(Article))
+}), { deleteArticle, loadArticleById }, null, { pure: false })(Article)

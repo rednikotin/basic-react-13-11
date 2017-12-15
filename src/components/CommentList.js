@@ -6,7 +6,8 @@ import CommentForm from './CommentForm'
 import Loader from './common/Loader'
 import {connect} from 'react-redux'
 import {loadArticleComments} from '../AC'
-import withInter from '../decorators/withInternationalization'
+import Inter from './common/Inter'
+
 
 class CommentList extends Component {
     static contextTypes = {
@@ -24,8 +25,8 @@ class CommentList extends Component {
     }
 
     render() {
-        const {isOpen, toggleOpen, inter } = this.props
-        const text = isOpen ? inter.hideComments : inter.showComments
+        const {isOpen, toggleOpen } = this.props
+        const text = isOpen ? <Inter value="hideComments" /> : <Inter value="showComments" />
         return (
             <div>
                 <button onClick={toggleOpen}>{text}</button>
@@ -37,7 +38,7 @@ class CommentList extends Component {
     getBody() {
         console.log('---', 5)
         //console.log('--- context', this.context)
-        const { article: {comments, id, commentsLoading, commentsLoaded}, isOpen, inter } = this.props
+        const { article: {comments, id, commentsLoading, commentsLoaded}, isOpen } = this.props
         if (!isOpen) return null
         if (commentsLoading) return <Loader />
         if (!commentsLoaded) return null
@@ -46,7 +47,7 @@ class CommentList extends Component {
             <ul>
                 {comments.map(id => <li key = {id}><Comment id = {id} /></li>)}
             </ul>
-        ) : <h3>{inter.noComments}</h3>
+        ) : <h3><Inter value="noComments" /></h3>
 
         return (
             <div>
@@ -59,4 +60,4 @@ class CommentList extends Component {
 }
 
 
-export default connect( null , { loadArticleComments }, null, { pure: false })(withInter(toggleOpen(CommentList)))
+export default connect( null , { loadArticleComments }, null, { pure: false })(toggleOpen(CommentList))

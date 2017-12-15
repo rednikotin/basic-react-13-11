@@ -6,7 +6,7 @@ import Loader from './common/Loader'
 import {connect} from 'react-redux'
 import {filtratedArticlesSelector, articlesLoadingSelector} from '../selectors'
 import {loadAllArticles} from '../AC'
-import withInter from '../decorators/withInternationalization'
+import Inter from './common/Inter'
 
 class ArticleList extends Accordion {
     componentDidMount() {
@@ -16,9 +16,9 @@ class ArticleList extends Accordion {
     }
 
     render() {
-        const {articles, loading, inter} = this.props
+        const {articles, loading} = this.props
         if (loading) return <Loader />
-        if (!articles.length) return <h3>{inter.noArticle}</h3>
+        if (!articles.length) return <h3><Inter value="noArticle" /></h3>
         const articleElements = articles.map((article) => <li key={article.id}>
             <NavLink activeStyle={{color: 'red'}} to={`/articles/${article.id}`}>{article.title}</NavLink>
         </li>)
@@ -44,4 +44,4 @@ export default connect(state => {
         articles: filtratedArticlesSelector(state),
         loading: articlesLoadingSelector(state)
     }
-}, { loadAllArticles })(withInter(ArticleList))
+}, { loadAllArticles })(ArticleList)

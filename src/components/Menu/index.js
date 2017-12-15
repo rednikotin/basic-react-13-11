@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import MenuItem from './MenuItem'
-import withInter from '../../decorators/withInternationalization'
+import Inter from '../common/Inter'
 
 //console.log('---', React.Fragment)
 class Menu extends Component {
@@ -11,7 +11,7 @@ class Menu extends Component {
     render() {
         return (
             <Fragment>
-                <h2>{this.props.inter.mainMenu}:</h2>
+                <h2><Inter value="mainMenu" />:</h2>
                 {this.props.children}
             </Fragment>
         )
@@ -19,4 +19,4 @@ class Menu extends Component {
 }
 
 export {MenuItem}
-export default withInter(Menu)
+export default Menu
