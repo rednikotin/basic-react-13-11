@@ -1,5 +1,5 @@
 import {
-    INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, ADD_COMMENT,
+    INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, ADD_COMMENT, LANG,
     LOAD_ALL_ARTICLES, LOAD_ARTICLE, LOAD_ARTICLE_COMMENTS, LOAD_COMMENTS_FOR_PAGE, START, SUCCESS, FAIL
 } from '../constants'
 import {replace} from 'react-router-redux'
@@ -104,3 +104,10 @@ export function checkAndLoadCommentsForPage(page) {
         })
     }
 }
+
+export function switchLang() {
+    return {
+        type: LANG
+    }
+}
+

@@ -6,12 +6,15 @@ import CommentForm from './CommentForm'
 import Loader from './common/Loader'
 import {connect} from 'react-redux'
 import {loadArticleComments} from '../AC'
+import withInter from '../decorators/withInternationalization'
 
 class CommentList extends Component {
     static contextTypes = {
         store: PropTypes.object,
         router: PropTypes.object,
-        username: PropTypes.string
+        username: PropTypes.string,
+        lang: PropTypes.string,
+        dictionary: PropTypes.object
     }
 
     componentWillReceiveProps({ isOpen, article, loadArticleComments }) {
@@ -21,8 +24,8 @@ class CommentList extends Component {
     }
 
     render() {
-        const {isOpen, toggleOpen} = this.props
-        const text = isOpen ? 'hide comments' : 'show comments'
+        const {isOpen, toggleOpen, inter } = this.props
+        const text = isOpen ? inter.hideComments : inter.showComments
         return (
             <div>
                 <button onClick={toggleOpen}>{text}</button>
@@ -33,8 +36,8 @@ class CommentList extends Component {
 
     getBody() {
         console.log('---', 5)
-//        console.log('--- context', this.context)
-        const { article: {comments, id, commentsLoading, commentsLoaded}, isOpen } = this.props
+        //console.log('--- context', this.context)
+        const { article: {comments, id, commentsLoading, commentsLoaded}, isOpen, inter } = this.props
         if (!isOpen) return null
         if (commentsLoading) return <Loader />
         if (!commentsLoaded) return null
@@ -43,7 +46,7 @@ class CommentList extends Component {
             <ul>
                 {comments.map(id => <li key = {id}><Comment id = {id} /></li>)}
             </ul>
-        ) : <h3>No comments yet</h3>
+        ) : <h3>{inter.noComments}</h3>
 
         return (
             <div>
@@ -56,4 +59,4 @@ class CommentList extends Component {
 }
 
 
-export default connect(null, { loadArticleComments }, null, { pure: false })(toggleOpen(CommentList))
+export default connect( null , { loadArticleComments }, null, { pure: false })(withInter(toggleOpen(CommentList)))

@@ -8,6 +8,7 @@ import './style.css'
 import {deleteArticle, loadArticleById} from '../../AC'
 import Loader from '../common/Loader'
 import {articleSelector} from '../../selectors'
+import withInter from '../../decorators/withInternationalization'
 
 class Article extends Component {
     static propTypes = {
@@ -37,7 +38,7 @@ class Article extends Component {
 
     componentDidCatch(err) {
         this.setState({
-            error: 'can`t display an article'
+            error: this.props.inter.cantDisplayArticle
         })
     }
 
@@ -65,9 +66,9 @@ class Article extends Component {
                 <h2>
                     {article.title}
                     <button onClick={toggleOpen}>
-                        {isOpen ? 'close' : 'open'}
+                        {isOpen ? this.props.inter.close : this.props.inter.open}
                     </button>
-                    <button onClick = {this.handleDelete}>delete me</button>
+                    <button onClick = {this.handleDelete}>{this.props.inter.deleteMe}</button>
                 </h2>
                 <CSSTransition
                     transitionName = 'article'
@@ -79,7 +80,7 @@ class Article extends Component {
                 >
                     {this.getBody()}
                 </CSSTransition>
-                <h3>creation date: {(new Date(article.date)).toDateString()}</h3>
+                <h3>{this.props.inter.creationDate}: {(new Date(article.date)).toDateString()}</h3>
             </div>
         )
     }
@@ -90,7 +91,7 @@ class Article extends Component {
         if (article.loading) return <Loader />
         return (
             <div>
-                <button onClick = {this.increment}>increment</button>
+                <button onClick = {this.increment}>{this.props.inter.increment}</button>
                 <section>{article.text}</section>
                 <CommentList article = {article}
                              key = {this.state.counter}/>
@@ -107,4 +108,4 @@ class Article extends Component {
 
 export default connect((state, props) => ({
     article: articleSelector(state, props)
-}), { deleteArticle, loadArticleById }, null, { pure: false })(Article)
+}), { deleteArticle, loadArticleById }, null, { pure: false })(withInter(Article))

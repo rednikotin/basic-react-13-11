@@ -4,9 +4,10 @@ import counterReducer from './counter'
 import articles from './articles'
 import comments from './comments'
 import filters from './filters'
+import lang from './lang'
 
 export default combineReducers({
     counter: counterReducer,
     router: routerReducer,
-    articles, comments, filters
+    articles, comments, filters, lang
 })

@@ -1,12 +1,12 @@
 import React from 'react'
+import withInter from '../../decorators/withInternationalization'
 
-function Loader(props) {
-    return (
-        <h2>Loading...</h2>
-    )
+class Loader extends React.Component {
+    render() {
+        return (
+            <h2>{this.props.inter.loading}...</h2>
+        )
+    }
 }
 
-Loader.propTypes = {
-}
-
-export default Loader
+export default withInter(Loader)
