@@ -17,6 +17,25 @@ class Inter extends PureComponent {
     }
 }
 
+const interWrap = (Component, props) => connect((state) => {
+    return { lang: state.lang }
+})(class InterWrapper extends React.Component {
+    static contextTypes = {
+        inter: PropTypes.object
+    }
+
+    render() {
+        const inter = Object.keys(props).reduce((acc, key) => {
+            acc[key] = this.context.inter[key][this.props.lang]
+            return acc
+        }, {})
+
+        return <Component {...inter} />
+    }
+})
+
+export {interWrap}
+
 export default connect((state) => {
     return {lang: state.lang}
 })(Inter)
